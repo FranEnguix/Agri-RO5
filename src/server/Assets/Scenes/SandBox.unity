@@ -430,7 +430,7 @@ Transform:
   m_GameObject: {fileID: 882593737}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 1, z: 100}
+  m_LocalScale: {x: 25, y: 1, z: 25}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
@@ -488,6 +488,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1877139296}
   - component: {fileID: 1877139295}
+  - component: {fileID: 1877139297}
   m_Layer: 0
   m_Name: Map Loader
   m_TagString: Untagged
@@ -539,6 +540,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1877139297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1877139294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ebd628df2eeb3147a607811223076da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resolution: 6
+  leftMargin: 10
+  rightMargin: 10
+  topMargin: 10
+  bottomMargin: 10
 --- !u!1 &2070114721
 GameObject:
   m_ObjectHideFlags: 0

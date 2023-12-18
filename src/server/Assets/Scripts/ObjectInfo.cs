@@ -10,6 +10,4 @@ public class ObjectInfo
     public string dataFolder;
     public Vector3 position;
     public Vector3 rotation;
-
-    public double comRadio;
 }
