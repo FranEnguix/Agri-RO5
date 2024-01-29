@@ -14,7 +14,7 @@ class EntityShell:
         behaviour = agent.behaviours[0]
         agent.total_moves = 16 #* 5 + 4
         agent.distancex = 6
-        agent.distancey = 3
+        agent.distancey = 12
         agent.moves = 0
         agent.roads = 0
         if agent.name == "agente1":

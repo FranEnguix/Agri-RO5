@@ -51,6 +51,7 @@ namespace RosSharp.Control1
             {
                 string robotNumberStr = robotName.Substring(5); // Quita "Robot"
                 string cmdVelTopic = "robot" + robotNumberStr + "/cmd_vel";
+                
                 ros.Subscribe<TwistMsg>(cmdVelTopic, ReceiveROSCmd);
             }
         }
@@ -66,7 +67,6 @@ namespace RosSharp.Control1
         {
             if (mode == ControlMode.Keyboard)
             {
-                KeyBoardUpdate();
             }
             else if (mode == ControlMode.ROS)
             {
@@ -96,41 +96,6 @@ namespace RosSharp.Control1
             joint.xDrive = drive;
         }
 
-        private void KeyBoardUpdate()
-        {
-            float moveDirection = Input.GetAxis("Vertical");
-            float inputSpeed;
-            float inputRotationSpeed;
-            if (moveDirection > 0)
-            {
-                inputSpeed = maxLinearSpeed;
-            }
-            else if (moveDirection < 0)
-            {
-                inputSpeed = maxLinearSpeed * -1;
-            }
-            else
-            {
-                inputSpeed = 0;
-            }
-
-            float turnDirction = Input.GetAxis("Horizontal");
-            if (turnDirction > 0)
-            {
-                inputRotationSpeed = maxRotationalSpeed;
-            }
-            else if (turnDirction < 0)
-            {
-                inputRotationSpeed = maxRotationalSpeed * -1;
-            }
-            else
-            {
-                inputRotationSpeed = 0;
-            }
-            RobotInput(inputSpeed, inputRotationSpeed);
-        }
-
-
         private void ROSUpdate()
         {
             if (Time.time - lastCmdReceived > ROSTimeout)
@@ -138,11 +103,14 @@ namespace RosSharp.Control1
                 rosLinear = 0f;
                 rosAngular = 0f;
             }
-            RobotInput(rosLinear, -rosAngular);
+            RobotInput(rosLinear, rosAngular);
         }
 
         private void RobotInput(float speed, float rotSpeed) // m/s and rad/s
         {
+
+            float girodcha = 0.15f;
+            float giroizq=0.15f;
             if (speed > maxLinearSpeed)
             {
                 speed = maxLinearSpeed;
@@ -158,10 +126,10 @@ namespace RosSharp.Control1
             float wheelSpeedDiff = ((rotSpeed * trackWidth) / wheelRadius);
             if (rotSpeed != 0)
             {
-                wheel1Rotation = (wheel1Rotation + (wheelSpeedDiff / 1)) * Mathf.Rad2Deg;
-                wheel2Rotation = (wheel2Rotation - (wheelSpeedDiff / 1)) * Mathf.Rad2Deg;
-                wheel3Rotation = (wheel3Rotation + (wheelSpeedDiff / 1)) * Mathf.Rad2Deg;
-                wheel4Rotation = (wheel4Rotation + (wheelSpeedDiff / 1)) * Mathf.Rad2Deg;
+                wheel1Rotation = (wheel1Rotation - (wheelSpeedDiff / giroizq)) * Mathf.Rad2Deg;
+                wheel2Rotation = (wheel2Rotation - (wheelSpeedDiff / giroizq)) * Mathf.Rad2Deg;
+                wheel3Rotation = (wheel3Rotation + (wheelSpeedDiff / girodcha)) * Mathf.Rad2Deg;
+                wheel4Rotation = (wheel4Rotation + (wheelSpeedDiff / girodcha)) * Mathf.Rad2Deg;
             }
             else
             {

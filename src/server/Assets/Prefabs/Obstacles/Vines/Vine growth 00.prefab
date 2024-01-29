@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 831040019171636936}
   - component: {fileID: 8556652636734355807}
   - component: {fileID: 2785051399317402327}
-  - component: {fileID: -1700485187842636655}
+  - component: {fileID: 7882821826232694891}
   m_Layer: 0
   m_Name: Vine growth 00
-  m_TagString: obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -92,7 +92,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &-1700485187842636655
+--- !u!64 &7882821826232694891
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
