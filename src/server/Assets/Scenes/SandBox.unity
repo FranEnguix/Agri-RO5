@@ -163,7 +163,7 @@ MonoBehaviour:
   - {fileID: 5276972756449290981, guid: e631d8052f89ec14c8e58c60603ad039, type: 3}
   - {fileID: 9103014078491276896, guid: c9f78625a1cbc7b4da881aa223a798cc, type: 3}
   - {fileID: 6303787870074055926, guid: 069e8dede4ffd9a4dbf6d08569244e58, type: 3}
-  - {fileID: 1614377459505033513, guid: f0e56d851b3f4ac4b9deda21b708b9b3, type: 3}
+  - {fileID: 5307552284393911236, guid: 92fbf80efaebb49d09436c9830187e98, type: 3}
   artifactsPrefabs:
   - {fileID: 2435525357684118788, guid: 97a94100dff69c74d8ca1bc7a05ee28b, type: 3}
 --- !u!4 &240953869
