@@ -6,6 +6,7 @@ from commander import Axis, ImageMode
 from spade.agent import Agent
 from spade.message import Message
 
+from ros.commands import Command
 from image_data import ImageData
 
 class EntityShell:
@@ -34,7 +35,7 @@ class EntityShell:
         await agent.change_color(0, 1, 0, 0.8)
         time.sleep(1)
 
-    async def action(agent: Agent):
+    async def action(agent: Agent, command: Command):
         await agent.change_color(0, 0, 1, 0.8)
         if agent.moves < agent.total_moves:
             agent.moves += 1

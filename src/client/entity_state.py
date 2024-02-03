@@ -1,6 +1,6 @@
 import json
 import os
-from queue import LifoQueue 
+from queue import LifoQueue, Queue 
 from datetime import datetime
 
 from image_data import ImageData
@@ -58,7 +58,7 @@ class StatePerception(State):
 
     def save_images(self):
         data = None
-        if (not self.agent.image_queue.empty()):
+        if (self.agent.image_queue and not self.agent.image_queue.empty()):
             data = self.agent.image_queue.get()
             self.agent.image_counter += 1
             if (self.agent.folder_capacity_size > 0):
@@ -98,5 +98,8 @@ class StateAction(State):
 
     async def run(self):
         print(f"{self.agent.name}: state {STATE_ACTION}.")
-        await self.__shell.action(self.agent)
+        command = None
+        if self.agent.action_queue and not self.agent.action_queue.empty():
+            command = self.agent.action_queue.get()
+        await self.__shell.action(self.agent, command)
         self.set_next_state(STATE_PERCEPTION)

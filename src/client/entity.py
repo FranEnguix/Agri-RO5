@@ -7,7 +7,7 @@ import time
 
 from dataclasses import dataclass
 
-from queue import LifoQueue 
+from queue import LifoQueue, Queue
 
 from spade.agent import Agent
 from spade.message import Message
@@ -17,6 +17,8 @@ from entity_behaviour import AgentBehaviour, AgentImageBehaviour
 from entity_state import STATE_INIT, STATE_PERCEPTION, STATE_COGNITION, STATE_ACTION
 from entity_state import StateInit, StatePerception, StateCognition, StateAction
 from commander import Axis
+
+from ros_behaviour import RosBehaviourDispatcher, RosBehaviourMessageManager
 
 class EntityAgent(Agent):
     def __init__(self, agent_jid: str, password: str, folder_capacity_size: int, image_folder_name: str, enable_agent_collision: bool, prefab_name: str, starter_position: dict, fiveserver_jid: str, algorithms: list[str], behaviour_path: str):
@@ -58,11 +60,24 @@ class EntityAgent(Agent):
         self.add_behaviour(fsm_behaviour, fsm_template)
         print(f"{self.name}: FSM behaviour is ready.")
 
-        # ADD IMAGE BEHAVIOUR
-        image_template = Template()
-        image_template.set_metadata("five", "image")
-        self.image_queue = LifoQueue()
-        self.add_behaviour(AgentImageBehaviour(), image_template)
+        if "camera" in self.__algorithms:
+            # ADD IMAGE BEHAVIOUR
+            image_template = Template()
+            image_template.set_metadata("five", "image")
+            self.image_queue = LifoQueue()
+            self.add_behaviour(AgentImageBehaviour(), image_template)
+
+        elif "ros" in self.__algorithms:
+            # ADD BEHAVIOUR
+            ros_template = Template()
+            ros_template.set_metadata("ros", "message")
+            self.robot_message_queue = Queue()
+            self.action_queue = Queue()
+            self.add_behaviour(behaviour=RosBehaviourMessageManager(), template=ros_template)
+
+            ros2_template = Template()
+            ros2_template.set_metadata("ros", "kk") # temporal TODO !!!!
+            self.add_behaviour(behaviour=RosBehaviourDispatcher(), template=ros2_template)
 
         
     async def send_msg_to_server_and_wait(self, msg:str) -> str:
