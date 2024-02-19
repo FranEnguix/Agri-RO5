@@ -36,7 +36,7 @@ public class Entity : MonoBehaviour
 
     private int conexionNumber;
 
-    private float radioCom=24;
+    private float radioCom=25;
     private Dictionary<string, GameObject> entities;
     private Dictionary<string, GameObject> comBeams;
    
@@ -173,7 +173,7 @@ public class Entity : MonoBehaviour
         int counter=-1;
         //comBeams = new Dictionary<string, GameObject>();
         entities = GameObject.Find("Agent Manager").GetComponent<XmppCommunicationManager>().Entities;
-       
+        //Debug.Log("antes del bucle "+this.name);
 
        // bool itself=false;
         foreach(var element in entities){
@@ -183,33 +183,35 @@ public class Entity : MonoBehaviour
                     itself=true;*/
             float dist=Vector3.Distance(element.Value.transform.position,transform.position);
            
-            if (comBeams.ContainsKey(element.Value.name)){
-
+            if (comBeams.ContainsKey(element.Value.name))
                     Destroy(comBeams[element.Value.name]);
-                }
-            
+                    
             if ((dist <= radioCom)&&(element.Value.name!=this.name)){
-                LineRenderer newBeam;
-                counter++;
+                    LineRenderer newBeam;
+                    counter++;
 
-                
-                //var LineRendered miLinea=GetComponent<LineRendered>;
-                
-                comBeams[element.Value.name]=new GameObject();
+                    
+                    //var LineRendered miLinea=GetComponent<LineRendered>;
+                    
+                    comBeams[element.Value.name]=new GameObject();
 
- 
+    
+                    
+                    comBeams[element.Value.name].AddComponent<LineRenderer>(); 
+                    
+                    //Debug.Log("Dist 1 "+element.Value.name+" "+comBeams[element.Value.name]);
+                    newBeam=comBeams[element.Value.name].GetComponent<LineRenderer>();
                 
-                comBeams[element.Value.name].AddComponent<LineRenderer>(); 
-                
-                //Debug.Log("Dist 1 "+element.Value.name+" "+comBeams[element.Value.name]);
-                newBeam=comBeams[element.Value.name].GetComponent<LineRenderer>();
-               
-                newBeam.positionCount = 4;
-                newBeam.SetPosition(0, element.Value.transform.position);
+                    newBeam.positionCount = 2;
+                    
+                    newBeam.SetPosition(0, element.Value.transform.position);
 
-                // Debug.Log("Dist 2 "+ element.Value.transform.position);
-                newBeam.SetPosition(1,transform.position); 
-                // Debug.Log("Dist 3 "+ transform.position); 
+                    // Debug.Log("Dist 2 "+ element.Value.transform.position);
+                    newBeam.SetPosition(1,transform.position); 
+                    newBeam.startWidth=1.0f;
+                    newBeam.endWidth=0.2f;
+                    
+                    // Debug.Log("Dist 3 "+ transform.position); 
             }
         }   
         // Debug.Log("Vecinos "+this.name+ " "+counter);
