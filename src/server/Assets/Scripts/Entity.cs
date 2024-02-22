@@ -39,7 +39,7 @@ public class Entity : MonoBehaviour
     private float radioCom=25;
     private Dictionary<string, GameObject> entities;
     private Dictionary<string, GameObject> comBeams;
-   
+    private Dictionary<string, GameObject> comArrows; 
 
     private void Awake() {
         camManager = GetComponent<CameraManager>();
@@ -53,12 +53,17 @@ public class Entity : MonoBehaviour
         SetObstacleAvoidance(agentCollision);
         //conexionNumber=0;
         comBeams = new Dictionary<string, GameObject>();
+        comArrows = new Dictionary<string, GameObject>();
     }
 
+    private void FixedUpdate(){
+        CheckNeighbors();
+
+    }
     private void Update() {
         // TakePictureOnMouseClick();
         // GoToPointOnMouseClick();
-        CheckNeighbors();
+       // CheckNeighbors();
         CheckIfGoalAchieved();
         if (goalSet)
             CheckIfStuck();
@@ -167,6 +172,18 @@ public class Entity : MonoBehaviour
         camManager.XmppClient = xmppClient;
         // camManager.ImageQueue = tcpImageManager.StartListeningImages();
     }
+    
+    public Vector3 calculateArrowhead(Vector3 originP, Vector3 destinyP){
+        Vector3 initialP, directionV, normV;
+
+        directionV = destinyP - originP;
+        normV = 2 * directionV.normalized;
+        initialP = destinyP - normV;
+
+        //Debug.Log("origen " + originP + " destino " + destinyP + " oFlecha " + initialP);
+
+        return initialP;
+    }
 
     public void CheckNeighbors(){
         //private Dictionary<string, LineRenderer> comBeams;
@@ -183,35 +200,53 @@ public class Entity : MonoBehaviour
                     itself=true;*/
             float dist=Vector3.Distance(element.Value.transform.position,transform.position);
            
-            if (comBeams.ContainsKey(element.Value.name))
+            if (comBeams.ContainsKey(element.Value.name)){
                     Destroy(comBeams[element.Value.name]);
+                    Destroy(comArrows[element.Value.name]);
+            }
                     
             if ((dist <= radioCom)&&(element.Value.name!=this.name)){
-                    LineRenderer newBeam;
+                    LineRenderer newBeam,secBeam;
+                    Vector3 secOrigin;
                     counter++;
 
+                    secOrigin=calculateArrowhead(transform.position, element.Value.transform.position);
+                    comArrows[element.Value.name]=new GameObject();
+                    comArrows[element.Value.name].AddComponent<LineRenderer>(); 
                     
+                    secBeam=comArrows[element.Value.name].GetComponent<LineRenderer>();
+                    secBeam.positionCount = 2;
+                    secBeam.SetPosition(0, secOrigin); 
+                    secBeam.SetPosition(1, element.Value.transform.position);
+                    secBeam.startWidth=2.0f;
+                    secBeam.endWidth=1.0f;
+                    secBeam.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
+                    secBeam.startColor=Color.white;
+                    secBeam.endColor=Color.white;
                     //var LineRendered miLinea=GetComponent<LineRendered>;
                     
                     comBeams[element.Value.name]=new GameObject();
-
-    
-                    
+                  
                     comBeams[element.Value.name].AddComponent<LineRenderer>(); 
                     
                     //Debug.Log("Dist 1 "+element.Value.name+" "+comBeams[element.Value.name]);
                     newBeam=comBeams[element.Value.name].GetComponent<LineRenderer>();
                 
                     newBeam.positionCount = 2;
-                    
-                    newBeam.SetPosition(0, element.Value.transform.position);
+                    newBeam.SetPosition(0,transform.position); 
+                    newBeam.SetPosition(1, element.Value.transform.position);
 
                     // Debug.Log("Dist 2 "+ element.Value.transform.position);
-                    newBeam.SetPosition(1,transform.position); 
-                    newBeam.startWidth=1.0f;
-                    newBeam.endWidth=0.2f;
                     
-                    // Debug.Log("Dist 3 "+ transform.position); 
+                    newBeam.startWidth=0.4f;
+                    newBeam.endWidth=0.4f;
+
+                    
+
+                    
+                    
+                    
+                    //Debug.Log("Dist 3 "+ transform.position); 
             }
         }   
         // Debug.Log("Vecinos "+this.name+ " "+counter);
