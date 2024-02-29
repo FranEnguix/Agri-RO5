@@ -509,3 +509,8 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+src/tools/map_generator/mapa.html
+src/tools/map_generator/img_20240228130329.png
+src/tools/map_generator/img_20240228130449.png
+src/tools/map_generator/mapa.html
+src/client/configuration.json

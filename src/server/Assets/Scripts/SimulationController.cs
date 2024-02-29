@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,6 +7,8 @@ public class SimulationController : MonoBehaviour
     private Camera mainCamera;
     private Camera cenitalCamera;
 	private Camera littleCamera;
+	//private Boolean infoState = false;
+	//private Canvas infoWindow;
 
     void Start ()
 	{
@@ -20,7 +23,10 @@ public class SimulationController : MonoBehaviour
 		cenitalCamera.enabled = false;
 		littleCamera = GameObject.Find("Little Camera").GetComponent<Camera>();
 		littleCamera.GetComponent<AudioListener>().enabled = false;
-		littleCamera.enabled = false;		
+		littleCamera.enabled = false;	
+
+		//infoWindow = GameObject.Find("Data Agent UI").GetComponent<Canvas>();
+		//infoWindow.enabled = false;
 
 
 		Debug.Log("SC: " + mapLoader.Origin_map + "  "+ mapLoader.End_map);
@@ -77,6 +83,12 @@ public class SimulationController : MonoBehaviour
 				//Debug.Log ("L cambio");
 			}
 		}
+
+		/*if (Input.GetKeyDown(KeyCode.I)){
+			infoWindow.enabled = !infoWindow.enabled;
+
+
+		}*/
 	}
 
         

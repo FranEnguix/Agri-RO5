@@ -56,14 +56,11 @@ public class Entity : MonoBehaviour
         comArrows = new Dictionary<string, GameObject>();
     }
 
-    private void FixedUpdate(){
-        CheckNeighbors();
-
-    }
+    
     private void Update() {
         // TakePictureOnMouseClick();
         // GoToPointOnMouseClick();
-       // CheckNeighbors();
+        CheckNeighbors();
         CheckIfGoalAchieved();
         if (goalSet)
             CheckIfStuck();
@@ -177,7 +174,7 @@ public class Entity : MonoBehaviour
         Vector3 initialP, directionV, normV;
 
         directionV = destinyP - originP;
-        normV = 2 * directionV.normalized;
+        normV = 3 * directionV.normalized;
         initialP = destinyP - normV;
 
         //Debug.Log("origen " + originP + " destino " + destinyP + " oFlecha " + initialP);
@@ -218,7 +215,7 @@ public class Entity : MonoBehaviour
                     secBeam.positionCount = 2;
                     secBeam.SetPosition(0, secOrigin); 
                     secBeam.SetPosition(1, element.Value.transform.position);
-                    secBeam.startWidth=2.0f;
+                    secBeam.startWidth=1.8f;
                     secBeam.endWidth=1.0f;
                     secBeam.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
                     secBeam.startColor=Color.white;
@@ -237,14 +234,13 @@ public class Entity : MonoBehaviour
                     newBeam.SetPosition(1, element.Value.transform.position);
 
                     // Debug.Log("Dist 2 "+ element.Value.transform.position);
-                    
+                    newBeam.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
                     newBeam.startWidth=0.4f;
                     newBeam.endWidth=0.4f;
-
-                    
-
-                    
-                    
+                    newBeam.startColor=Color.white;
+                    newBeam.endColor=Color.white;
+                 
+                                  
                     
                     //Debug.Log("Dist 3 "+ transform.position); 
             }
