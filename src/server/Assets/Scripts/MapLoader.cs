@@ -90,7 +90,7 @@ public class MapLoader : MonoBehaviour
         }
         End_map.x = maxX;
         End_map.z = currentZ;
-        Debug.Log("Origin " + Origin_map + " End "+ End_map);
+       // Debug.Log("Origin " + Origin_map + " End "+ End_map);
     }
 
     private void InstantiateSymbol(Dictionary<string, SymbolPrefabPair> symbolToPrefabMapping, char symbol, Vector3 pos, ref int spawnerCounter) {

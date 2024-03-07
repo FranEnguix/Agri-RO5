@@ -29,7 +29,6 @@ public class SimulationController : MonoBehaviour
 		//infoWindow.enabled = false;
 
 
-		Debug.Log("SC: " + mapLoader.Origin_map + "  "+ mapLoader.End_map);
 		wideX = mapLoader.End_map.x - mapLoader.Origin_map.x;
 		wideZ = mapLoader.End_map.z - mapLoader.Origin_map.z;
 		
@@ -39,9 +38,7 @@ public class SimulationController : MonoBehaviour
 		}
 		else
 			maxY = wideX;
-
-		Debug.Log("PC: " + wideX + "  "+ wideZ);
-		
+			
 		heightY = 100 * maxY / 126; // Height of cenital camera depends on the maximum side
 		cenitalCamera.transform.position = new Vector3(mapLoader.Origin_map.x+wideX/2,heightY,mapLoader.Origin_map.z+wideZ/2);
 		activeCamera = mainCamera;

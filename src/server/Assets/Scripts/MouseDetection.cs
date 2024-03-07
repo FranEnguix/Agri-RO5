@@ -23,59 +23,37 @@ public class MouseDetection : MonoBehaviour
         text3 = GameObject.Find("Text3").GetComponent<TMP_Text>();
         text4 = GameObject.Find("Text4").GetComponent<TMP_Text>();
         text5 = GameObject.Find("Text5").GetComponent<TMP_Text>();
-        //text2 = GameObject.Find("Text2").GetComponent<TMP_Text>();
+        
     }
 
     void Update(){
         RaycastHit hit;
         Ray pulsation;
-
+        
+        //Shows tha agent info panel
         if (Input.GetKeyDown(KeyCode.I)){
             infoWindow.enabled = !infoWindow.enabled;
-            
-        }
+        }    
+        
+        //Selects the agent to show info
         if (Input.GetMouseButton(0)){
             pulsation = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(pulsation, out hit))
-                Debug.Log("Raycast " + hit.collider.name);
-                Debug.Log("Tipo: "+ hit.collider.transform.parent.gameObject.name);
+            if (Physics.Raycast(pulsation, out hit)){
+                posAgent = hit.collider.transform.parent;
+                
+            }
         }
-        if (capturedAgent!=null){
-            String aux;
-            posAgent = capturedAgent.transform;
-        //text2 = GameObject.Find("Text2").GetComponent<TMP_Text>();
-           // Debug.Log("Dentro update "+ capturedAgent.name);
-              
-            var pos= capturedAgent.name.IndexOf("@");
-            aux = capturedAgent.name.Substring(0,pos);
+        if (posAgent!=null){
+            var pos= posAgent.name.IndexOf("@");
+            String aux = posAgent.name.Substring(0,pos);
             text2.text = "Name:  " + aux;
             text3.text = "PosX:  " + posAgent.position.x; 
             text4.text = "PosZ:  " + posAgent.position.z;
             text5.text = "Elevation:   " + posAgent.position.y;
+            
         }
-    }
-
     
-    void OnMouseDown()
-    {
-        String aux;
-        
-        
-        Debug.Log("Pillado 2 " + gameObject.name);
-        capturedAgent = gameObject;
-        /*
-        posAgent = gameObject.transform;
-        //text2 = GameObject.Find("Text2").GetComponent<TMP_Text>();
-        
-              
-        var pos= capturedAgent.name.IndexOf("@");
-        aux = capturedAgent.name.Substring(0,pos);
-        text2.text = "Name:  " + aux;
-        text3.text = "PosX:  " + posAgent.position.x; 
-        text4.text = "PosZ:  " + posAgent.position.z;
-        text5.text = "Elevation:   " + posAgent.position.y;
-        */
-        //Debug.Log("Pillado6 ");
-
     }
+   
+
 }

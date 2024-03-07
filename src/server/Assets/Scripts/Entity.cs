@@ -177,8 +177,6 @@ public class Entity : MonoBehaviour
         normV = 3 * directionV.normalized;
         initialP = destinyP - normV;
 
-        //Debug.Log("origen " + originP + " destino " + destinyP + " oFlecha " + initialP);
-
         return initialP;
     }
 

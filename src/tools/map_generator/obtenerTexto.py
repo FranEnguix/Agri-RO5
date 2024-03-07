@@ -128,10 +128,10 @@ def obtenerTextoConImagen(imagen):
             minx=x
         if x>maxx:
             maxx=x
-#     print("Xmin Y min Xmax Ymax ",minx,miny,maxx,maxy)
-    nlineasy=(maxy-miny)//distancia + 1
-    nlineasx=(maxx-minx)//distancia + 1
-#     print("Nlineas ",nlineasx, nlineasy)
+    print("Xmin Y min Xmax Ymax ",minx,miny,maxx,maxy)
+    nlineasy=(maxy-miny)//distancia + 2
+    nlineasx=(maxx-minx)//distancia + 2
+    print("Nlineas ",nlineasx, nlineasy)
     terreno=np.empty((nlineasy, nlineasx),dtype=str)
     terreno[:][:]=' '
     ocupacion=np.empty((nlineasy, nlineasx),dtype=int)
@@ -190,7 +190,7 @@ def obtenerTextoConImagen(imagen):
                 
             PosX=int((x+w/2)//distancia)
             PosY=int((y+h/2)//distancia)
-            
+            print("Pos X ",PosX," PosY ", PosY)
 #             if (terreno[PosY][PosX]!=' '):
 #                 print('Valores: ',PosX, PosY, x, y, w ,h, tr_colores(terreno[PosY][PosX]), tr_colores(letra))
 #                 input('sigue')
