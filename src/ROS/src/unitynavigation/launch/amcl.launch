@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<launch>
+
+<!-- Parametros para spwa muliples robots -->
+  <arg name="robotname" default="robot_0" />
+  <arg name="mapname" default="vineyard" /> 
+  <arg name="use_amcl" default="false" />
+  <arg name="use_move_base" default="true" />
+
+
+
+  
+      <!-- Run the map server -->
+      <!-- <node name="map_server" pkg="map_server" type="map_server" args="$(find unitynavigation)/maps/$(arg mapname)/$(arg mapname).yaml" /> -->
+    <!-- Standard ROS navigation modules -->
+
+    
+    <group ns="$(arg robotname)">
+     <node name="map_server" pkg="map_server" type="map_server" args="$(find unitynavigation)/maps/$(arg mapname)/$(arg mapname).yaml" />
+    <group if="$(arg use_amcl)">
+        <!--- AMCL -->   
+            
+        <!-- Override AMCL Frame Params to include prefix -->
+        <include file="$(find unitynavigation)/params/amcl/amcl_diff.launch" />
+                <!-- Override AMCL Frame Params to include prefix -->
+        <param name="/$(arg robotname)/amcl/base_frame_id" value="$(arg robotname)/base_link"/>
+        <param name="/$(arg robotname)/amcl/odom_frame_id" value="$(arg robotname)/odom"/>
+        <param name="/$(arg robotname)/amcl/global_frame_id" value="map"/> 
+         
+    </group>
+    <group if="$(arg use_move_base)">
+        <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+            <rosparam file="$(find unitynavigation)/params/move_base/costmap_common_params.yaml" command="load" ns="global_costmap" />
+            <rosparam file="$(find unitynavigation)/params/move_base/costmap_common_params.yaml" command="load" ns="local_costmap" />
+            <rosparam file="$(find unitynavigation)/params/move_base/local_costmap_params.yaml" command="load" />
+            <rosparam file="$(find unitynavigation)/params/move_base/global_costmap_params.yaml" command="load" />
+            <rosparam file="$(find unitynavigation)/params/move_base/base_local_planner_params.yaml" command="load" />
+            <!-- remap from="cmd_vel" to="desired_cmd_vel" / -->
+    
+            <!-- Override MOVE_BASE Frame Params to include prefix -->
+            <param name="global_costmap/laser_scan_sensor/sensor_frame" value="$(arg robotname)/base_laser_link"/>
+            <param name="global_costmap/laser_scan_sensor/topic" value="/$(arg robotname)/base_scan"/>
+            <param name="global_costmap/robot_base_frame" value="$(arg robotname)/base_link"/>   
+            <param name="local_costmap/global_frame" value="$(arg robotname)/odom"/>
+            <param name="local_costmap/laser_scan_sensor/sensor_frame" value="$(arg robotname)/base_laser_link"/>
+            <param name="local_costmap/laser_scan_sensor/topic" value="/$(arg robotname)/base_scan"/>
+            <param name="local_costmap/robot_base_frame" value="$(arg robotname)/base_link"/> 
+            <remap from="/$(arg robotname)/odom" to="/$(arg robotname)/drive_controller/odom"/>
+            <remap from="/$(arg robotname)/cmd_vel" to="/$(arg robotname)/drive_controller/cmd_vel"/>
+        </node>
+    </group>
+<include file="$(find unitynavigation)/params/amcl/$(arg robotname)_initial_pose.xml" />
+</group>
+  
+</launch>

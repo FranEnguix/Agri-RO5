@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+
+<!-- Parametros para spwa muliples robots -->
+<arg name="robotname" default="robot_0" />
+
+<node pkg="unitynavigation" name="PerfectLocalization" type="PerfectLocalization.py" output="screen" args="$ (arg robotname)"> 
+    <param name="robotname" value="$(arg robotname)" />
+</node>
+
+  
+</launch>
